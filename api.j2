@@ -1,0 +1,16 @@
+resource "google_project_service" "{{ item | regex_replace("[^A-Za-z0-9]", "") }}" {
+  project = var.project_id
+  service = "{{ item }}.${var.api-endpoint}"
+  count = var.{{ item | regex_replace("[^A-Za-z0-9]", "") }} ? 1:0
+
+  timeouts {
+    create = var.timeout_create
+    update = var.timeout_update
+  }
+
+  disable_dependent_services = var.disable_dependent_services
+}
+
+variable "{{ item | regex_replace("[^A-Za-z0-9]", "") }}" {
+type = bool
+}

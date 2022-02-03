@@ -1,0 +1,17 @@
+---
+- hosts: localhost
+  gather_facts: yes
+  tasks:
+    - name: Create main var file
+      template:
+        src: "vars.j2"
+        dest: "../terraform-module-google-api/variables.tf"
+    - name: Create main var file
+      template:
+        src: "provider.j2"
+        dest: "../terraform-module-google-api/provider.tf"
+    - name: Create file per API
+      with_lines: cat "./api.og.csv"
+      template:
+        src: "api.j2"
+        dest: "../terraform-module-google-api/{{ item }}.tf"
